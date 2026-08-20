@@ -15,17 +15,18 @@ HEADERS = {
 
 
 def get_asins(url):
+    """Fetches an Amazon search page and returns the ASINs found on it."""
     try:
         response = requests.get(
             url,
             headers=HEADERS,
             timeout=15
         )
-
         response.raise_for_status()
 
         soup = BeautifulSoup(response.text, "html.parser")
 
+        # Each search result stores its ASIN in the data-asin attribute.
         products = soup.select(
             '[data-component-type="s-search-result"][data-asin]'
         )
@@ -42,6 +43,7 @@ def get_asins(url):
 
 
 def load_existing_asins():
+    """Loads previously collected ASINs to avoid adding duplicates."""
     try:
         with open(ASIN_FILE, "r", encoding="utf-8") as file:
             return {
@@ -55,6 +57,7 @@ def load_existing_asins():
 
 
 def save_new_asins(asins):
+    """Appends only new ASINs to the local ASIN file."""
     existing_asins = load_existing_asins()
 
     new_asins = [
@@ -63,6 +66,7 @@ def save_new_asins(asins):
         if asin not in existing_asins
     ]
 
+    # Append mode keeps the existing ASIN pool and adds only new entries.
     with open(ASIN_FILE, "a", encoding="utf-8") as file:
         for asin in new_asins:
             file.write(asin + "\n")
