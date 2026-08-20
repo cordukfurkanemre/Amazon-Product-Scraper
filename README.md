@@ -6,12 +6,12 @@ Simple Python project for collecting Amazon product ASINs and reading basic prod
 
 - `asin_collector.py` → collects ASINs from Amazon search results
 - `product_scraper.py` → reads ASINs and fetches title, reviews and price
-- `asins.txt` → generated ASIN list
+- `asins.txt` → generated automatically when ASINs are collected
 
 ## Install
 
 ```bash
-pip install requests beautifulsoup4
+pip install -r requirements.txt
 ```
 
 ## Usage
